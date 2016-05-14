@@ -1,5 +1,6 @@
 package com.example.anastasia.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mFalseButton;
     private Button mPreviousButton;
     private Button mNextButton;
+    private Button mCheatButton;
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
     private TextView mQuestionTextView;
@@ -95,6 +97,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
                 updateQuestion();
+            }
+        });
+        mCheatButton = (Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+// Start CheatActivity
+                Intent i = new Intent(MainActivity.this, CheatActivity.class);
+                boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
+                i.putExtra(CheatActivity.EXTRA_ANSWER_IS_TRUE, answerIsTrue);
+                startActivity(i);
             }
         });
         if (savedInstanceState != null) {
